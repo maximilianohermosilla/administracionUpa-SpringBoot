@@ -51,8 +51,8 @@ public class TipoEventoService implements ITipoEventoService{
     }
 
     @Override
-    public TipoEvento findTipoEvento(Long id) {
-        TipoEvento tipoEventoTemp = tipoEventoRepo.findById(id).orElse(null);
+    public TipoEvento findById(Long idTipoEvento) {
+        TipoEvento tipoEventoTemp = tipoEventoRepo.findById(idTipoEvento).orElse(null);
         return tipoEventoTemp;
     }
     

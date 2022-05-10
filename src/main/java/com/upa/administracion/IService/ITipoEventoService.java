@@ -11,5 +11,5 @@ public interface ITipoEventoService {
     public TipoEvento saveTipoEvento(TipoEvento tipoEvento);
     public TipoEvento saveTipoEventoId(Long idUsuario, TipoEvento tipoEvento);
     public void deleteTipoEvento(Long id);
-    public TipoEvento findTipoEvento(Long id);
+    public TipoEvento findById(Long idTipoEvento);
 }

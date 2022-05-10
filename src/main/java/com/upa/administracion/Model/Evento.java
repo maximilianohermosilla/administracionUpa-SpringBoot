@@ -29,14 +29,16 @@ public class Evento {
     private String color;
     private String backgroundColor;
     private String borderColor;
-    private String editable;
+    private Boolean editable;
+    private Boolean enabled;
+    private Boolean newEvent;
     
-    @ManyToOne (fetch=FetchType.LAZY)    
-    @JoinColumn (name="id_tipoEvento", nullable=false)
+    @ManyToOne (fetch=FetchType.EAGER)    
+    @JoinColumn (name="id_tipo_Evento", nullable=false)
     @JsonIgnore
     private TipoEvento tipoEvento;
     
-    @ManyToOne (fetch=FetchType.LAZY)    
+    @ManyToOne (fetch=FetchType.EAGER)    
     @JoinColumn (name="id_usuario", nullable=false)
     @JsonIgnore
     private Usuario usuario;    
@@ -44,7 +46,7 @@ public class Evento {
     public Evento() {
     }
 
-    public Evento(Long id, String title, String start, String end, String description, String color, String backgroundColor, String borderColor, String editable, TipoEvento tipoEvento, Usuario usuario) {
+    public Evento(Long id, String title, String start, String end, String description, String color, String backgroundColor, String borderColor, Boolean editable, Boolean enabled, TipoEvento tipoEvento, Usuario usuario, Boolean newEvent) {
         this.id = id;
         this.title = title;
         this.start = start;
@@ -54,11 +56,13 @@ public class Evento {
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
         this.editable = editable;
+        this.enabled = enabled;
         this.tipoEvento = tipoEvento;
         this.usuario = usuario;
+        this.newEvent = newEvent;
     }
 
-    public Evento(String title, String start, String end, String description, String color, String backgroundColor, String borderColor, String editable, TipoEvento tipoEvento, Usuario usuario) {
+    public Evento(String title, String start, String end, String description, String color, String backgroundColor, String borderColor, Boolean editable, Boolean enabled, TipoEvento tipoEvento, Usuario usuario, Boolean newEvent) {
         this.title = title;
         this.start = start;
         this.end = end;
@@ -67,10 +71,13 @@ public class Evento {
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
         this.editable = editable;
+        this.enabled = enabled;
         this.tipoEvento = tipoEvento;
         this.usuario = usuario;
+        this.newEvent = newEvent;
     }
 
+   
     
     
     

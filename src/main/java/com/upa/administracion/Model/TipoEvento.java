@@ -18,29 +18,25 @@ public class TipoEvento {
     @NotNull
     private String descripcion;
     private Boolean oneDay;
+    private Boolean pendiente;
 
     public TipoEvento() {
     }
 
-    public TipoEvento(Long id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
-    }
-
-    public TipoEvento(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public TipoEvento(String descripcion, Boolean oneDay) {
-        this.descripcion = descripcion;
-        this.oneDay = oneDay;
-    }
-
-    public TipoEvento(Long id, String descripcion, Boolean oneDay) {
+    public TipoEvento(Long id, String descripcion, Boolean oneDay, Boolean pendiente) {
         this.id = id;
         this.descripcion = descripcion;
         this.oneDay = oneDay;
+        this.pendiente = pendiente;
     }
+
+    public TipoEvento(String descripcion, Boolean oneDay, Boolean pendiente) {
+        this.descripcion = descripcion;
+        this.oneDay = oneDay;
+        this.pendiente = pendiente;
+    }
+
+    
     
        
     

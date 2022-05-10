@@ -37,7 +37,7 @@ public class TipoEventoController {
     @PutMapping ("tipoevento/{id}")
     public ResponseEntity<TipoEvento> edit(@PathVariable Long id,
                                      @RequestBody TipoEvento tipoEvento){
-        TipoEvento tipoEventoTemp = tipoEventoServ.findTipoEvento(id);
+        TipoEvento tipoEventoTemp = tipoEventoServ.findById(id);
         tipoEventoTemp.setDescripcion(tipoEvento.getDescripcion());
         tipoEventoTemp.setOneDay(tipoEvento.getOneDay());
         
