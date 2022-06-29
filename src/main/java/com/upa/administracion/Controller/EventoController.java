@@ -91,10 +91,10 @@ public class EventoController {
         return new ResponseEntity<List<Evento>>(eventoList, HttpStatus.OK);
     }*/
     
-    @PostMapping ("evento/save")
+    /*@PostMapping ("evento/save")
     public ResponseEntity<Evento> save(@RequestBody Evento evento, Long idTipoEvento, Long idUsuario) {
         Evento eventoTemp = eventoServ.saveEventoId(idUsuario, idTipoEvento, evento);
-		return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK);
+		return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK);*/
         /*TipoEvento tipo = tipoEventoServ.findById(idTipoEvento);
         Usuario usuarioTemp = usuarioServ.findUsuario(idUsuario);
         Evento eventoTemp = new Evento();
@@ -113,11 +113,11 @@ public class EventoController {
         
         eventoServ.saveEvento(eventoTemp);
         return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK); */
-    }
+    //}
     
-    @PostMapping ("evento/saveEvento/")
-    public ResponseEntity<Evento> saveEventoUsuario(@RequestParam Long idUsuario,
-                                                    @RequestParam Long idTipoEvento,
+    @PostMapping ("evento/saveEvento/{idUsuario}/{idTipoEvento}")
+    public ResponseEntity<Evento> saveEventoUsuario(@PathVariable(value = "idUsuario") Long idUsuario,
+                                                    @PathVariable(value = "idTipoEvento") Long idTipoEvento,
                                                     @RequestBody Evento evento) {
         Evento eventoTemp = new Evento(
                 evento.getTitle(),
@@ -138,20 +138,21 @@ public class EventoController {
     
     @PutMapping ("evento/{id}")
     public ResponseEntity<Evento> edit(@PathVariable Long id,
-                                     @RequestBody Evento tipoEvento){
+                                     @RequestBody EventoDTO evento){
         Evento eventoTemp = eventoServ.findEvento(id);
-        eventoTemp.setTitle(tipoEvento.getTitle());
-        eventoTemp.setStart(tipoEvento.getStart());
-        eventoTemp.setEnd(tipoEvento.getEnd());
-        eventoTemp.setColor(tipoEvento.getColor());
-        eventoTemp.setBackgroundColor(tipoEvento.getBackgroundColor());
-        eventoTemp.setBorderColor(tipoEvento.getBorderColor());
-        eventoTemp.setEditable(tipoEvento.getEditable());
-        eventoTemp.setTipoEvento(tipoEvento.getTipoEvento());
-        eventoTemp.setUsuario(tipoEvento.getUsuario());        
+        eventoTemp.setTitle(evento.getTitle());
+        eventoTemp.setStart(evento.getStart());
+        eventoTemp.setEnd(evento.getEnd());
+        eventoTemp.setColor(evento.getColor());
+        eventoTemp.setBackgroundColor(evento.getBackgroundColor());
+        eventoTemp.setBorderColor(evento.getBorderColor());
+        eventoTemp.setEditable(evento.getEditable());
+        eventoTemp.setEnabled(evento.getEnabled());
+        eventoTemp.setTipoEvento(evento.getTipoEvento());
+        eventoTemp.setUsuario(evento.getUsuario());        
         eventoTemp.setNewEvent(false);
         
-        eventoServ.saveEvento(eventoTemp);
+        eventoServ.saveEventoId(evento.getUsuario().getId(), evento.getTipoEvento().getId(), eventoTemp);
         return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK);        
     }
     
