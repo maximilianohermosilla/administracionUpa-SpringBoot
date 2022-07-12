@@ -39,81 +39,24 @@ public class EventoController {
         return new ResponseEntity<List<Evento>>(eventoList, HttpStatus.OK);
     }
     
-    @GetMapping ("eventoDTO")
-    public ResponseEntity<List<EventoDTO>> getDTO() {
-        List<Evento> eventos = eventoServ.getEvento();
-        List<EventoDTO> eventosDTO = new ArrayList<EventoDTO>();
-        TipoEvento tipoEvento;
-        Usuario usuario;
-        for (int i=0;i<eventos.size();i++) {
-            if(eventos.get(i).getUsuario()!=null){
-            usuario = usuarioServ.findUsuario(eventos.get(i).getUsuario().getId());
-        }
-        else{
-            usuario = new Usuario();
-        }
-        if(eventos.get(i).getTipoEvento()!=null){
-            tipoEvento = tipoEventoServ.findById(eventos.get(i).getUsuario().getId());
-        }  
-        else{
-            tipoEvento = new TipoEvento();
-        }
-        EventoDTO eventoDTO = new EventoDTO(eventos.get(i).getId(),
-                                            eventos.get(i).getTitle(), 
-                                            eventos.get(i).getStart(), 
-                                            eventos.get(i).getEnd(), 
-                                            eventos.get(i).getDescription(), 
-                                            eventos.get(i).getColor(), 
-                                            eventos.get(i).getBackgroundColor(), 
-                                            eventos.get(i).getBorderColor(),
-                                            eventos.get(i).getEditable(),
-                                            eventos.get(i).getEnabled(),
-                                            eventos.get(i).getNewEvent(),
-                                            tipoEvento,
-                                            usuario
-                                            );
-        eventosDTO.add(eventoDTO);
-        }
-        
-        
-        return new ResponseEntity<List<EventoDTO>>(eventosDTO, HttpStatus.OK);
-    }
-    
-    /*@GetMapping ("evento/{idUsuario}")
-    public ResponseEntity<List<Evento>> get(@PathVariable Long idUsuario){
+    @GetMapping ("evento/usuario/{idUsuario}")
+    public ResponseEntity<List<Evento>> getByUsuario(@PathVariable Long idUsuario){
         List<Evento> eventoList = eventoServ.getEventoUsuario(idUsuario);
         return new ResponseEntity<List<Evento>>(eventoList, HttpStatus.OK);
-    }*/
+    }  
     
-    /*@GetMapping ("evento/{idUsuario}/{idTipoEvento}")
-    public ResponseEntity<List<Evento>> get(@PathVariable Long idTipoEvento, @PathVariable Long idUsuario){
+    @GetMapping ("evento/tipoEvento/{idTipoEvento}")
+    public ResponseEntity<List<Evento>> getByTipoEvento(@PathVariable Long idTipoEvento){
+        List<Evento> eventoList = eventoServ.getEventoTipoEvento(idTipoEvento);
+        return new ResponseEntity<List<Evento>>(eventoList, HttpStatus.OK);
+    }   
+    
+    @GetMapping ("evento/filter/{idUsuario}/{idTipoEvento}")
+    public ResponseEntity<List<Evento>> getByTipoEvento(@PathVariable Long idUsuario,
+                                                        @PathVariable Long idTipoEvento){
         List<Evento> eventoList = eventoServ.getByUsuarioAndTipoEvento(idTipoEvento, idUsuario);
         return new ResponseEntity<List<Evento>>(eventoList, HttpStatus.OK);
-    }*/
-    
-    /*@PostMapping ("evento/save")
-    public ResponseEntity<Evento> save(@RequestBody Evento evento, Long idTipoEvento, Long idUsuario) {
-        Evento eventoTemp = eventoServ.saveEventoId(idUsuario, idTipoEvento, evento);
-		return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK);*/
-        /*TipoEvento tipo = tipoEventoServ.findById(idTipoEvento);
-        Usuario usuarioTemp = usuarioServ.findUsuario(idUsuario);
-        Evento eventoTemp = new Evento();
-        eventoTemp.setTitle(evento.getTitle());
-        eventoTemp.setDescription(evento.getDescription());
-        eventoTemp.setStart(evento.getStart());
-        eventoTemp.setEnd(evento.getEnd());
-        eventoTemp.setColor(evento.getColor());
-        eventoTemp.setBackgroundColor(evento.getBackgroundColor());
-        eventoTemp.setBorderColor(evento.getBorderColor());
-        eventoTemp.setEditable(evento.getEditable());
-        eventoTemp.setEnabled(evento.getEnabled());
-        eventoTemp.setTipoEvento(tipo);
-        eventoTemp.setUsuario(usuarioTemp);        
-        eventoTemp.setNewEvent(false);
-        
-        eventoServ.saveEvento(eventoTemp);
-        return new ResponseEntity<Evento>(eventoTemp, HttpStatus.OK); */
-    //}
+    } 
     
     @PostMapping ("evento/saveEvento/{idUsuario}/{idTipoEvento}")
     public ResponseEntity<Evento> saveEventoUsuario(@PathVariable(value = "idUsuario") Long idUsuario,
@@ -138,7 +81,7 @@ public class EventoController {
     
     @PutMapping ("evento/{id}")
     public ResponseEntity<Evento> edit(@PathVariable Long id,
-                                     @RequestBody EventoDTO evento){
+                                     @RequestBody Evento evento){
         Evento eventoTemp = eventoServ.findEvento(id);
         eventoTemp.setTitle(evento.getTitle());
         eventoTemp.setStart(evento.getStart());

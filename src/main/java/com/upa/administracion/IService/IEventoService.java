@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public interface IEventoService {
     public List<Evento> getEvento();
     public List<Evento> getEventoUsuario(Long idUsuario);
+    public List<Evento> getEventoTipoEvento(Long idTipoEvento);
     public List<Evento> getByUsuarioAndTipoEvento(Long idTipoEvento, Long idUsuario);
     public Evento saveEvento(Evento evento);
     public Evento saveEventoId(Long idUsuario, Long idTipoEvento, Evento evento);

@@ -34,6 +34,12 @@ public class EventoService implements IEventoService{
         List<Evento> listaEvento = eventoRepo.findByUsuario(idUsuario);
         return listaEvento;
     }
+    
+    @Override
+    public List<Evento> getEventoTipoEvento(Long idTipoEvento) {
+        List<Evento> listaEvento = eventoRepo.findByTipoEvento(idTipoEvento);
+        return listaEvento;
+    }
             
     @Override
     public List<Evento> getByUsuarioAndTipoEvento(Long idTipoEvento, Long idUsuario) {

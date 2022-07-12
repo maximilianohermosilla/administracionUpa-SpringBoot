@@ -35,12 +35,12 @@ public class Evento {
     
     @ManyToOne (fetch=FetchType.EAGER)    
     @JoinColumn (name="id_tipo_Evento", nullable=false)
-    @JsonIgnore
+    //@JsonIgnore
     private TipoEvento tipoEvento;
     
     @ManyToOne (fetch=FetchType.EAGER)    
     @JoinColumn (name="id_usuario", nullable=false)
-    @JsonIgnore
+    //@JsonIgnore
     private Usuario usuario;    
 
     public Evento() {
