@@ -14,6 +14,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long>{
     @Query(value = "SELECT * FROM evento e WHERE e.id_tipo_evento = :idTipoEvento", nativeQuery=true)
         List<Evento> findByTipoEvento(@Param("idTipoEvento") Long idTipoEvento);
         
-    @Query(value = "SELECT * FROM evento e WHERE e.id_usuario = :idUsuario and e.id_tipo_evento = :idTipoEvento", nativeQuery=true)
+    //@Query(value = "SELECT * FROM evento e WHERE e.id_usuario = :idUsuario and e.id_tipo_evento = :idTipoEvento", nativeQuery=true)
+    @Query(value = "SELECT * FROM evento e WHERE (e.id_usuario = :idUsuario or 1=:idUsuario) and (e.id_tipo_evento = :idTipoEvento or 0=:idTipoEvento)", nativeQuery=true)             
         List<Evento> findByUsuarioAndTipoEvento(@Param("idTipoEvento") Long idTipoEvento, @Param("idUsuario") Long idUsuario);
 }
