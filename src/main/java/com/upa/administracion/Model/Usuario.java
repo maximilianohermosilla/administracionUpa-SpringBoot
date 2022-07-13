@@ -35,6 +35,7 @@ public class Usuario {
     private String password;
     private String color;
     private Boolean habilitado;
+    private Long horasFavor;
 
     /*@ManyToMany (fetch=FetchType.EAGER)    
     @JoinTable(name="perfiles_usuarios", joinColumns= @JoinColumn(name="id_usuario"),
@@ -56,7 +57,7 @@ public class Usuario {
         this.habilitado = habilitado;
     }
 
-    public Usuario(Long id, String legajo, String user, String name, String lastName, String email, String fechaNac, String password, String color, Boolean habilitado) {
+    public Usuario(Long id, String legajo, String user, String name, String lastName, String email, String fechaNac, String password, String color, Boolean habilitado, Long horasFavor) {
         this.id = id;
         this.legajo = legajo;
         this.user = user;
@@ -67,6 +68,7 @@ public class Usuario {
         this.password = password;
         this.color = color;
         this.habilitado = habilitado;
+        this.horasFavor = horasFavor;
     }
     
 }
