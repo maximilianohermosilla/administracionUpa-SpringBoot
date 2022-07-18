@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"> 
+    </head>
+    <body>
+        <p>
+            ¡Bienvenido/a </b> <span th:text="${name}">Peter Static</span> a la plataforma de <b>Administración UPA</b>!        
+        <p>            
+            Su usuario fue creado o reestablecido el  
+            <span th:text="${subscriptionDate}">28-12-2012</span>
+        </p>
+        <p>Las credenciales para ingresar son:</p>
+        <ul>
+            <li th:each="tech : ${technologies}" th:text="${tech}"></li>
+        </ul>
+        <p>
+            Ante cualquier consulta, comuniquese con su administrador
+        </p>
+        <br/>
+        <br/>        
+         <p>
+             <a href"https://administracionUpa10.com/">https://administracionUpa10.com/</a>
+         </p>
+        <img src="https://i0.wp.com/infobaires24.com.ar/wp-content/uploads/2015/11/upa-e1448328411229.jpg?resize=390%2C220&ssl=1" alt="" style="height: 100px;">
+    </body>
+</html>

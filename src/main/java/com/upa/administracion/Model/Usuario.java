@@ -36,7 +36,9 @@ public class Usuario {
     private String color;
     private Boolean habilitado;
     private Long horasFavor;
-
+    private Long diasFavor;
+    private Long diasVacaciones;
+    
     /*@ManyToMany (fetch=FetchType.EAGER)    
     @JoinTable(name="perfiles_usuarios", joinColumns= @JoinColumn(name="id_usuario"),
     inverseJoinColumns = @JoinColumn(name="id_perfil"))
@@ -57,7 +59,7 @@ public class Usuario {
         this.habilitado = habilitado;
     }
 
-    public Usuario(Long id, String legajo, String user, String name, String lastName, String email, String fechaNac, String password, String color, Boolean habilitado, Long horasFavor) {
+    public Usuario(Long id, String legajo, String user, String name, String lastName, String email, String fechaNac, String password, String color, Boolean habilitado, Long horasFavor, Long diasVacaciones, Long diasFavor) {
         this.id = id;
         this.legajo = legajo;
         this.user = user;
@@ -69,6 +71,8 @@ public class Usuario {
         this.color = color;
         this.habilitado = habilitado;
         this.horasFavor = horasFavor;
+        this.diasFavor = diasFavor;
+        this.diasVacaciones = diasVacaciones;                
     }
     
 }

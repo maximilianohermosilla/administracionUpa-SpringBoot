@@ -32,6 +32,7 @@ public class Evento {
     private Boolean editable;
     private Boolean enabled;
     private Boolean newEvent;
+    private Long horas;
     
     @ManyToOne (fetch=FetchType.EAGER)    
     @JoinColumn (name="id_tipo_Evento", nullable=false)
@@ -75,6 +76,22 @@ public class Evento {
         this.tipoEvento = tipoEvento;
         this.usuario = usuario;
         this.newEvent = newEvent;
+    }
+    
+    public Evento(String title, String start, String end, String description, String color, String backgroundColor, String borderColor, Boolean editable, Boolean enabled, TipoEvento tipoEvento, Usuario usuario, Boolean newEvent, Long horas) {
+        this.title = title;
+        this.start = start;
+        this.end = end;
+        this.description = description;
+        this.color = color;
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
+        this.editable = editable;
+        this.enabled = enabled;
+        this.tipoEvento = tipoEvento;
+        this.usuario = usuario;
+        this.newEvent = newEvent;
+        this.horas = horas;
     }
 
    

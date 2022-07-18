@@ -28,6 +28,12 @@ public class UsuarioController {
         return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
     }
     
+    @GetMapping ("usuario/{idUsuario}")
+    public ResponseEntity<Usuario> getUsuario (@PathVariable Long idUsuario){
+        Usuario usuariotemp = usuarioServ.findUsuario(idUsuario);
+        return new ResponseEntity<Usuario>(usuariotemp, HttpStatus.OK);
+    }
+    
     @PostMapping ("usuario/save")
     public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
         Usuario usuarioTemp = usuarioServ.saveUsuario(usuario);
@@ -40,12 +46,15 @@ public class UsuarioController {
         Usuario usuarioTemp = usuarioServ.findUsuario(id);
         usuarioTemp.setHabilitado(usuario.getHabilitado());
         usuarioTemp.setUser(usuario.getUser());
+        usuarioTemp.setLegajo(usuario.getLegajo());
         usuarioTemp.setPassword(usuario.getPassword()); 
         usuarioTemp.setEmail(usuario.getEmail()); 
         usuarioTemp.setFechaNac(usuario.getFechaNac());
         usuarioTemp.setColor(usuario.getColor());
-        usuarioTemp.setHabilitado(usuario.getHabilitado());
-        
+        usuarioTemp.setName(usuario.getName());
+        usuarioTemp.setLastName(usuario.getLastName());
+        usuarioTemp.setDiasFavor(usuario.getDiasFavor());
+        usuarioTemp.setDiasVacaciones(usuario.getDiasVacaciones());
         usuarioServ.saveUsuario(usuarioTemp);
         return new ResponseEntity<Usuario>(usuarioTemp, HttpStatus.OK);        
     }
