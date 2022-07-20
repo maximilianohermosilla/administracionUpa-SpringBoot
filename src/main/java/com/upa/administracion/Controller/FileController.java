@@ -73,7 +73,7 @@ public class FileController {
   @GetMapping("/fileUsuario/{idUsuario}")
   public ResponseEntity<String> getFileIdByUsuario(@PathVariable Long idUsuario) {
     String fileDB = storageService.getFileIdByUsuario(idUsuario);
-    String urlFile = "https://administracion-upa-10.herokuapp.com/" + fileDB;
+    String urlFile = "https://administracion-upa-10.herokuapp.com/files/" + fileDB;
     return ResponseEntity.status(HttpStatus.OK).body(urlFile);
     /*return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
