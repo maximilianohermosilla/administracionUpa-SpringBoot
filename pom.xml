@@ -14,7 +14,7 @@
 	<name>administracion</name>
 	<description>Administracion UPA 10</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -88,13 +88,6 @@
                                 <testTarget>8</testTarget>
                                 <showDeprecation>true</showDeprecation>
                                 <compilerArgument>-Xlint:unchecked</compilerArgument>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-maven-plugin</artifactId>
-                            <configuration>
-                                <release>11</release>
                             </configuration>
                         </plugin>
 		</plugins>
