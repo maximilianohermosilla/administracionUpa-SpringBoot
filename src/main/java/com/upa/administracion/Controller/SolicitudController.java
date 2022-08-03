@@ -1,10 +1,15 @@
 package com.upa.administracion.Controller;
 
 
+import com.upa.administracion.IService.IEventoService;
+import com.upa.administracion.IService.ILogService;
 import com.upa.administracion.IService.ISolicitudService;
 import com.upa.administracion.IService.IUsuarioService;
 import com.upa.administracion.Model.Evento;
+import com.upa.administracion.Model.Log;
 import com.upa.administracion.Model.Solicitud;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RestController
 public class SolicitudController {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     
     @Autowired
     private ISolicitudService solicitudService;
@@ -27,7 +33,13 @@ public class SolicitudController {
     @Autowired
     private IUsuarioService usuarioServ;
     
-    @GetMapping ("solicitudes")
+    @Autowired
+    private IEventoService eventoService;
+    
+    @Autowired
+    private ILogService logService; 
+    
+    @GetMapping ("solicitud")
     public ResponseEntity<List<Solicitud>> get(){
         List<Solicitud> solicitudList = solicitudService.getSolicitud();
         return new ResponseEntity<List<Solicitud>>(solicitudList, HttpStatus.OK);
@@ -58,7 +70,7 @@ public class SolicitudController {
         return new ResponseEntity<List<Solicitud>>(solicitudList, HttpStatus.OK);
     }     
     
-    @PostMapping ("saveSolicitud/{idUsuario}/{idEvento}")
+    @PostMapping ("solicitud/save/{idUsuario}/{idEvento}")
     public ResponseEntity<Solicitud> saveSolicitudUsuario(@PathVariable(value = "idUsuario") Long idUsuario,
                                                     @PathVariable(value = "idTipoEvento") Long idTipoEvento,
                                                     @PathVariable(value = "idEvento") Long idEvento,
@@ -72,6 +84,12 @@ public class SolicitudController {
                 solicitud.getUsuario(),
                 solicitud.getTipoEvento());
         solicitudTemp = solicitudService.saveSolicitudId(idUsuario, idTipoEvento, solicitudTemp);
+        
+        //INSERTO EVENTO
+        LocalDateTime now = LocalDateTime.now(); 
+        Log logTemp = new Log("Solicitud de " + solicitudTemp.getTipoEvento().getDescripcion() + " ingresada por el usuario "+ solicitudTemp.getUsuario().getUser() + " para el dìa " + solicitudTemp.getEvento().getStart(),  dtf.format(now));
+        logService.saveLogId(idUsuario,new Long(3),logTemp);
+
         return new ResponseEntity<Solicitud>(solicitudTemp, HttpStatus.OK);
     }
     
@@ -90,7 +108,22 @@ public class SolicitudController {
         return new ResponseEntity<Solicitud>(solicitudTemp, HttpStatus.OK);
     }
     
-    @PutMapping ("solicitudUpdate/{id}")
+    @PostMapping ("solicitud/save/{idUsuario}")
+    public ResponseEntity<Solicitud> saveSolicitudUsuarioEvento(@PathVariable(value = "idUsuario") Long idUsuario,
+                                                                @RequestBody Solicitud solicitud, Evento evento) {
+        Evento eventoTemp = eventoService.saveEvento(evento);
+        Solicitud solicitudTemp = solicitudService.saveSolicitud(solicitud);
+        
+        //INSERTO EVENTO
+        LocalDateTime now = LocalDateTime.now(); 
+        Log logTemp = new Log("Solicitud de " + solicitudTemp.getTipoEvento().getDescripcion() + " ingresada por el usuario "+ solicitudTemp.getUsuario().getUser() + " para el dìa " + solicitudTemp.getEvento().getStart(),  dtf.format(now));
+        logService.saveLogId(idUsuario,new Long(3),logTemp);
+
+        return new ResponseEntity<Solicitud>(solicitudTemp, HttpStatus.OK);
+    }
+    
+    
+    @PutMapping ("solicitud/update/{id}")
     public ResponseEntity<Solicitud> edit(@PathVariable Long id,
                                      @RequestBody Solicitud solicitud){
         Solicitud solicitudTemp = solicitudService.findSolicitud(id);
@@ -103,6 +136,23 @@ public class SolicitudController {
         solicitudTemp.setTipoEvento(solicitud.getTipoEvento());        
         
         solicitudService.saveSolicitud(solicitudTemp);
+        return new ResponseEntity<Solicitud>(solicitudTemp, HttpStatus.OK);        
+    }
+    
+    @PutMapping ("solicitud/enable/{id}")
+    public ResponseEntity<Solicitud> enable(@PathVariable Long id,
+                                     @RequestBody Solicitud solicitud){
+        Solicitud solicitudTemp = solicitudService.findSolicitud(id);    
+        LocalDateTime now = LocalDateTime.now(); 
+        solicitudTemp.setAprobado(solicitud.getAprobado());
+        solicitudTemp.setDate_time_aprobado(dtf.format(now));
+        
+        //INSERTO EVENTO
+        Log logTemp = new Log("Solicitud " + id +  " aprobada. Evento: " + solicitudTemp.getTipoEvento().getDescripcion() + " ingresado por el usuario "+ solicitudTemp.getUsuario().getUser() + " para el dìa " + solicitudTemp.getEvento().getStart(),  dtf.format(now));
+        logService.saveLogId(solicitud.getUsuario().getId() ,new Long(3), logTemp);
+        
+        solicitudService.saveSolicitud(solicitudTemp);
+        
         return new ResponseEntity<Solicitud>(solicitudTemp, HttpStatus.OK);        
     }
     

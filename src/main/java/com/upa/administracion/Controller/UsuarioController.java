@@ -1,7 +1,11 @@
 package com.upa.administracion.Controller;
 
+import com.upa.administracion.IService.ILogService;
 import com.upa.administracion.IService.IUsuarioService;
+import com.upa.administracion.Model.Log;
 import com.upa.administracion.Model.Usuario;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RestController
 public class UsuarioController {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    @Autowired
+    private ILogService logService; 
     
     @Autowired
     private IUsuarioService usuarioServ;
@@ -37,6 +44,12 @@ public class UsuarioController {
     @PostMapping ("usuario/save")
     public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
         Usuario usuarioTemp = usuarioServ.saveUsuario(usuario);
+        
+        //INSERTO EVENTO
+        LocalDateTime now = LocalDateTime.now(); 
+        Log logTemp = new Log("Se ha creado el usuario: " + usuario.getUser(),  dtf.format(now));
+        logService.saveLogId(usuario.getId(),new Long(6),logTemp);
+        
         return new ResponseEntity<Usuario>(usuarioTemp, HttpStatus.OK);
     }
     
@@ -56,12 +69,24 @@ public class UsuarioController {
         usuarioTemp.setDiasFavor(usuario.getDiasFavor());
         usuarioTemp.setDiasVacaciones(usuario.getDiasVacaciones());
         usuarioServ.saveUsuario(usuarioTemp);
+        
+        //INSERTO EVENTO
+        LocalDateTime now = LocalDateTime.now(); 
+        Log logTemp = new Log("Se ha actualizado el usuario: " + usuario.getUser(),  dtf.format(now));
+        logService.saveLogId(usuario.getId(),new Long(6),logTemp);
+        
         return new ResponseEntity<Usuario>(usuarioTemp, HttpStatus.OK);        
     }
     
     @DeleteMapping ("usuario/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         usuarioServ.deleteUsuario(id);
+        Usuario usuarioTemp = usuarioServ.findUsuario(id);
+        
+        LocalDateTime now = LocalDateTime.now(); 
+        Log logTemp = new Log("Se ha eliminado al usuario: " + usuarioTemp.getUser(),  dtf.format(now));
+        logService.saveLogId(usuarioTemp.getId(),new Long(6),logTemp);
+        
         return new ResponseEntity<String>("Usuario is deleted successfully.!", HttpStatus.OK);
     }
     

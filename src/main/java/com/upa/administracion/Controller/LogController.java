@@ -4,6 +4,7 @@ package com.upa.administracion.Controller;
 import com.upa.administracion.IService.ILogService;
 import com.upa.administracion.IService.IUsuarioService;
 import com.upa.administracion.Model.Log;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RestController
 public class LogController {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     
     @Autowired
     private ILogService logService;

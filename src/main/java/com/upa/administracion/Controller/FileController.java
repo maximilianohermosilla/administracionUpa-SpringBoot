@@ -4,6 +4,7 @@ import com.upa.administracion.Model.FileDB;
 import com.upa.administracion.Model.ResponseFile;
 import com.upa.administracion.Model.ResponseMessage;
 import com.upa.administracion.Service.FileStorageService;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @CrossOrigin("*")
 @RestController
 public class FileController {
+  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); 
+    
   @Autowired
   private FileStorageService storageService;
   @PostMapping("/upload")
