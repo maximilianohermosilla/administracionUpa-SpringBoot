@@ -80,13 +80,13 @@ public class UsuarioController {
     
     @DeleteMapping ("usuario/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        usuarioServ.deleteUsuario(id);
+        
         Usuario usuarioTemp = usuarioServ.findUsuario(id);
         
         LocalDateTime now = LocalDateTime.now(); 
         Log logTemp = new Log("Se ha eliminado al usuario: " + usuarioTemp.getUser(),  dtf.format(now));
         logService.saveLogId(usuarioTemp.getId(),new Long(6),logTemp);
-        
+        usuarioServ.deleteUsuario(id);
         return new ResponseEntity<String>("Usuario is deleted successfully.!", HttpStatus.OK);
     }
     
