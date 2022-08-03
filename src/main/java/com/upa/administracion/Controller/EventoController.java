@@ -136,14 +136,14 @@ public class EventoController {
     
     @DeleteMapping ("evento/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        eventoServ.deleteEvento(id);
+        
         Evento eventoTemp = eventoServ.findEvento(id);
         
         //INSERTO EVENTO
         LocalDateTime now = LocalDateTime.now(); 
         Log logTemp = new Log("Evento " + id +  " eliminado: " + eventoTemp.getTipoEvento().getDescripcion() + ". Dia: " + eventoTemp.getStart() + "-" + eventoTemp.getEnd() +  ". Usuario: " + eventoTemp.getUsuario().getUser(),  dtf.format(now));
         logService.saveLogId(eventoTemp.getUsuario().getId(),new Long(5),logTemp);
-        
+        eventoServ.deleteEvento(id);
         return new ResponseEntity<String>("Evento is deleted successfully.!", HttpStatus.OK);
     }
 }
